@@ -1,0 +1,11 @@
+{
+    "id": "friendsofbotble/fob-ticksify",
+    "name": "FOB Ticksify",
+    "namespace": "FriendsOfBotble\\Ticksify\\",
+    "provider": "FriendsOfBotble\\Ticksify\\Providers\\TicksifyServiceProvider",
+    "author": "Friends Of Botble",
+    "url": "https://friendsofbotble.com",
+    "version": "1.0.0",
+    "description": "Manage your customer's support tickets easily.",
+    "minimum_core_version": "7.0.5"
+}

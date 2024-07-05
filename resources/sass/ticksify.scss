@@ -1,0 +1,7 @@
+@import "trix/dist/trix.css";
+
+.trix-button-group {
+    &.trix-button-group--file-tools {
+        display: none;
+    }
+}
