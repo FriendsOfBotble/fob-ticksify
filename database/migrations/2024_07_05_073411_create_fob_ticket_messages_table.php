@@ -1,5 +1,6 @@
 <?php
 
+use Botble\Base\Enums\BaseStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,7 +12,8 @@ return new class () extends Migration {
             $table->id();
             $table->morphs('sender');
             $table->foreignId('ticket_id');
-            $table->text('message');
+            $table->text('content');
+            $table->string('status', 60)->default(BaseStatusEnum::PUBLISHED);
             $table->timestamps();
         });
     }

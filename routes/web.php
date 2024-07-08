@@ -4,6 +4,7 @@ use Botble\Base\Facades\AdminHelper;
 use Botble\Theme\Facades\Theme;
 use FriendsOfBotble\Ticksify\Http\Controllers\CategoryController;
 use FriendsOfBotble\Ticksify\Http\Controllers\Fronts\TicketController as FrontTicketController;
+use FriendsOfBotble\Ticksify\Http\Controllers\Fronts\TicketMessageController;
 use FriendsOfBotble\Ticksify\Http\Controllers\TicketController;
 
 AdminHelper::registerRoutes(function () {
@@ -21,7 +22,7 @@ AdminHelper::registerRoutes(function () {
 });
 
 Theme::registerRoutes(function () {
-    Route::middleware('customer')
+    Route::middleware(is_plugin_active('ecommerce') ? 'customer' : 'account')
         ->prefix('ticksify/tickets')
         ->name('fob-ticksify.public.tickets.')
         ->group(function () {
@@ -29,5 +30,6 @@ Theme::registerRoutes(function () {
             Route::get('create', [FrontTicketController::class, 'create'])->name('create');
             Route::post('/', [FrontTicketController::class, 'store'])->name('store');
             Route::get('{ticket}', [FrontTicketController::class, 'show'])->name('show');
+            Route::post('{ticket}/messages', [TicketMessageController::class, 'store'])->name('messages.store');
         });
 });

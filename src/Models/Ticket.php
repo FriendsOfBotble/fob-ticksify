@@ -3,7 +3,6 @@
 namespace FriendsOfBotble\Ticksify\Models;
 
 use Botble\Base\Models\BaseModel;
-use Botble\Blog\Models\Category;
 use FriendsOfBotble\Ticksify\Enums\TicketPriority;
 use FriendsOfBotble\Ticksify\Enums\TicketStatus;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +14,7 @@ class Ticket extends BaseModel
     protected $table = 'fob_tickets';
 
     protected $fillable = [
+        'category_id',
         'sender_type',
         'sender_id',
         'title',

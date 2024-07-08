@@ -11,6 +11,7 @@ use Botble\Base\Forms\Fields\SelectField;
 use Botble\Base\Forms\Fields\TextField;
 use Botble\Theme\Facades\Theme;
 use Botble\Theme\FormFront;
+use FriendsOfBotble\Ticksify\Enums\TicketPriority;
 use FriendsOfBotble\Ticksify\Models\Category;
 use FriendsOfBotble\Ticksify\Models\Ticket;
 
@@ -18,8 +19,6 @@ class TicketForm extends FormFront
 {
     public function setup(): void
     {
-        Theme::asset()->add('ticksify', 'vendor/core/plugins/fob-ticksify/css/ticksify.css');
-
         Theme::asset()
             ->container('footer')
             ->add('ticksify', 'vendor/core/plugins/fob-ticksify/js/ticksify.js');
@@ -59,6 +58,15 @@ class TicketForm extends FormFront
                 'hidden',
                 TextFieldOption::make()
                     ->addAttribute('id', 'content')
+            )
+            ->add(
+                'priority',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->wrapperAttributes(['class' => 'my-3 position-relative'])
+                    ->label(__('Priority'))
+                    ->choices(TicketPriority::labels())
+                    ->defaultValue(TicketPriority::MEDIUM)
             )
             ->add(
                 'submit',

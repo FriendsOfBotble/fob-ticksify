@@ -5,10 +5,11 @@ namespace FriendsOfBotble\Ticksify\Providers;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
+use Botble\Blog\Models\Post;
 use Botble\Ecommerce\Models\Customer;
-use Botble\JobBoard\Models\Account as JobBoardAccount;
-use Botble\RealEstate\Models\Account as RealEstateAccount;
+use Botble\RealEstate\Models\Account;
 use FriendsOfBotble\Ticksify\Models\Ticket;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class TicksifyServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,14 @@ class TicksifyServiceProvider extends ServiceProvider
             ->resolveRelations()
             ->loadMigrations()
             ->loadRoutes();
+
+        add_filter(BASE_FILTER_BEFORE_GET_FRONT_PAGE_ITEM, function (Builder $query) {
+            if ($query->getModel() instanceof Post) {
+                $query->where('status', 'hehe');
+            }
+
+            return $query;
+        }, 999);
     }
 
     protected function registerDashboardMenu(): self
@@ -56,6 +65,17 @@ class TicksifyServiceProvider extends ServiceProvider
                 ]);
         });
 
+        DashboardMenu::for(is_plugin_active('ecommerce') ? 'customer' : 'account')
+            ->beforeRetrieving(function () {
+                DashboardMenu::make()->registerItem([
+                    'id' => 'cms-plugins-fob-ticksify-public',
+                    'priority' => 90,
+                    'name' => __('Tickets'),
+                    'url' => fn () => route('fob-ticksify.public.tickets.index'),
+                    'icon' => 'ti ti-ticket',
+                ]);
+            });
+
         return $this;
     }
 
@@ -68,13 +88,19 @@ class TicksifyServiceProvider extends ServiceProvider
         }
 
         if (is_plugin_active('real-estate')) {
-            RealEstateAccount::resolveRelationUsing('tickets', function (RealEstateAccount $customer) {
+            Account::resolveRelationUsing('tickets', function (Account $customer) {
                 return $customer->morphMany(Ticket::class, 'sender');
             });
         }
 
         if (is_plugin_active('job-board')) {
-            JobBoardAccount::resolveRelationUsing('tickets', function (JobBoardAccount $customer) {
+            \Botble\JobBoard\Models\Account::resolveRelationUsing('tickets', function (\Botble\JobBoard\Models\Account $customer) {
+                return $customer->morphMany(Ticket::class, 'sender');
+            });
+        }
+
+        if (is_plugin_active('hotel')) {
+            \Botble\Hotel\Models\Account::resolveRelationUsing('tickets', function (\Botble\Hotel\Models\Account $customer) {
                 return $customer->morphMany(Ticket::class, 'sender');
             });
         }

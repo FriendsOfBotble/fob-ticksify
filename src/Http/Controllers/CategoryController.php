@@ -38,15 +38,15 @@ class CategoryController extends BaseController
 
     public function store(CategoryRequest $request)
     {
-        $categoryForm = CategoryForm::create()->setRequest($request);
-        $categoryForm->saveOnlyValidatedData();
+        $form = CategoryForm::create()->setRequest($request);
+        $form->saveOnlyValidatedData();
 
         return $this
             ->httpResponse()
             ->setPreviousRoute('fob-ticksify.categories.index')
             ->setNextRoute(
                 'fob-ticksify.categories.edit',
-                $categoryForm->getModel()->getKey()
+                $form->getModel()->getKey()
             )
             ->withCreatedSuccessMessage();
     }
@@ -60,15 +60,15 @@ class CategoryController extends BaseController
 
     public function update(Category $category, CategoryRequest $request)
     {
-        $categoryForm = CategoryForm::createFromModel($category)->setRequest($request);
-        $categoryForm->saveOnlyValidatedData();
+        $form = CategoryForm::createFromModel($category)->setRequest($request);
+        $form->saveOnlyValidatedData();
 
         return $this
             ->httpResponse()
             ->setPreviousRoute('fob-ticksify.categories.index')
             ->setNextRoute(
                 'fob-ticksify.categories.edit',
-                $categoryForm->getModel()->getKey()
+                $form->getModel()->getKey()
             )
             ->withUpdatedSuccessMessage();
     }

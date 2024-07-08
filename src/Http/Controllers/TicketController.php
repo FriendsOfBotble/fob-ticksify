@@ -6,8 +6,8 @@ use Botble\Base\Http\Actions\DeleteResourceAction;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\Base\Supports\Breadcrumb;
 use FriendsOfBotble\Ticksify\Forms\TicketForm;
-use FriendsOfBotble\Ticksify\Http\Requests\CategoryRequest;
-use FriendsOfBotble\Ticksify\Models\Category;
+use FriendsOfBotble\Ticksify\Http\Requests\TicketRequest;
+use FriendsOfBotble\Ticksify\Models\Ticket;
 use FriendsOfBotble\Ticksify\Tables\TicketTable;
 
 class TicketController extends BaseController
@@ -29,30 +29,33 @@ class TicketController extends BaseController
         return $ticketTable->renderTable();
     }
 
-    public function edit(Category $category)
+    public function edit(Ticket $ticket)
     {
-        $this->pageTitle(trans('core/base::forms.edit'));
+        $this->pageTitle($ticket->title);
 
-        return TicketForm::createFromModel($category)->renderForm();
+        return TicketForm::createFromModel($ticket)->renderForm();
     }
 
-    public function update(Category $category, CategoryRequest $request)
+    public function update(Ticket $ticket, TicketRequest $request)
     {
-        $ticketForm = TicketForm::createFromModel($category)->setRequest($request);
-        $ticketForm->saveOnlyValidatedData();
+        $form = TicketForm::createFromModel($ticket)
+            ->setRequest($request)
+            ->onlyValidatedData();
+
+        $form->save();
 
         return $this
             ->httpResponse()
             ->setPreviousRoute('fob-ticksify.tickets.index')
             ->setNextRoute(
                 'fob-ticksify.tickets.edit',
-                $ticketForm->getModel()->getKey()
+                $form->getModel()->getKey()
             )
             ->withUpdatedSuccessMessage();
     }
 
-    public function destroy(Category $category)
+    public function destroy(Ticket $ticket)
     {
-        return DeleteResourceAction::make($category);
+        return DeleteResourceAction::make($ticket);
     }
 }
