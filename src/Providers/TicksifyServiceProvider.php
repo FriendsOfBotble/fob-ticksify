@@ -5,11 +5,10 @@ namespace FriendsOfBotble\Ticksify\Providers;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
-use Botble\Blog\Models\Post;
 use Botble\Ecommerce\Models\Customer;
 use Botble\RealEstate\Models\Account;
 use FriendsOfBotble\Ticksify\Models\Ticket;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Foundation\Application;
 
 class TicksifyServiceProvider extends ServiceProvider
 {
@@ -27,13 +26,7 @@ class TicksifyServiceProvider extends ServiceProvider
             ->loadMigrations()
             ->loadRoutes();
 
-        add_filter(BASE_FILTER_BEFORE_GET_FRONT_PAGE_ITEM, function (Builder $query) {
-            if ($query->getModel() instanceof Post) {
-                $query->where('status', 'hehe');
-            }
-
-            return $query;
-        }, 999);
+        $this->app->booted(fn (Application $app) => $app->register(HookServiceProvider::class));
     }
 
     protected function registerDashboardMenu(): self
@@ -52,16 +45,21 @@ class TicksifyServiceProvider extends ServiceProvider
                     'priority' => 10,
                     'parent_id' => 'cms-plugins-fob-ticksify',
                     'name' => 'plugins/fob-ticksify::ticksify.tickets.name',
-                    'url' => fn () => route('fob-ticksify.tickets.index'),
-                    'permissions' => ['fob-ticksify.tickets.index'],
+                    'route' => 'fob-ticksify.tickets.index',
+                ])
+                ->registerItem([
+                    'id' => 'cms-plugins-fob-ticksify-messages',
+                    'priority' => 20,
+                    'parent_id' => 'cms-plugins-fob-ticksify',
+                    'name' => 'plugins/fob-ticksify::ticksify.messages.name',
+                    'route' => 'fob-ticksify.messages.index',
                 ])
                 ->registerItem([
                     'id' => 'cms-plugins-fob-ticksify-categories',
                     'priority' => 20,
                     'parent_id' => 'cms-plugins-fob-ticksify',
                     'name' => 'plugins/fob-ticksify::ticksify.categories.name',
-                    'url' => fn () => route('fob-ticksify.categories.index'),
-                    'permissions' => ['fob-ticksify.categories.index'],
+                    'route' => 'fob-ticksify.categories.index',
                 ]);
         });
 

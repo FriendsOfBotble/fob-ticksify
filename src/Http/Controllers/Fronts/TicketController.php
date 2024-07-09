@@ -5,8 +5,9 @@ namespace FriendsOfBotble\Ticksify\Http\Controllers\Fronts;
 use Botble\Base\Http\Controllers\BaseController;
 use Botble\SeoHelper\Facades\SeoHelper;
 use Botble\Theme\Facades\Theme;
+use FriendsOfBotble\Ticksify\Enums\TicketStatus;
+use FriendsOfBotble\Ticksify\Forms\Fronts\MessageForm;
 use FriendsOfBotble\Ticksify\Forms\Fronts\TicketForm;
-use FriendsOfBotble\Ticksify\Forms\MessageForm;
 use FriendsOfBotble\Ticksify\Http\Requests\Fronts\TicketRequest;
 use FriendsOfBotble\Ticksify\Models\Ticket;
 use FriendsOfBotble\Ticksify\Support\Helper;
@@ -17,19 +18,18 @@ class TicketController extends BaseController
     {
         SeoHelper::setTitle(__('Tickets'));
         Theme::breadcrumb()->add(__('Tickets'), route('fob-ticksify.public.tickets.index'));
-        Theme::asset()->add('ticksify', 'vendor/core/plugins/fob-ticksify/css/ticksify.css');
+        Theme::asset()->add('ticksify', 'vendor/core/plugins/fob-ticksify/css/front-ticksify.css');
 
         $tickets = Helper::getAuthUser()
             ->tickets()
             ->paginate();
 
-        $stats = Helper::getAuthUser()->tickets()
-            ->toBase()
-            ->selectRaw('count(*) as total')
-            ->selectRaw('count(if(status = "open", 1, null)) as open')
-            ->selectRaw('count(if(status = "in_progress", 1, null)) as in_progress')
-            ->selectRaw('count(if(status = "closed", 1, null)) as closed')
-            ->selectRaw('count(if(status = "on_hold", 1, null)) as on_hold')
+        $user = Helper::getAuthUser();
+
+        $stats = Ticket::query()
+            ->where('sender_type', $user::class)
+            ->where('sender_id', $user->getKey())
+            ->withStatistics()
             ->first();
 
         return Theme::scope(
@@ -78,7 +78,7 @@ class TicketController extends BaseController
         Theme::breadcrumb()
             ->add(__('Tickets'), route('fob-ticksify.public.tickets.index'))
             ->add(__('Create Ticket'));
-        Theme::asset()->add('ticksify', 'vendor/core/plugins/fob-ticksify/css/ticksify.css');
+        Theme::asset()->add('ticksify', 'vendor/core/plugins/fob-ticksify/css/front-ticksify.css');
 
         $form = TicketForm::create();
 
@@ -100,6 +100,7 @@ class TicketController extends BaseController
                 ...$form->getRequestData(),
                 'sender_type' => $user::class,
                 'sender_id' => $user->getKey(),
+                'status' => TicketStatus::OPEN,
             ]);
 
             $model->save();

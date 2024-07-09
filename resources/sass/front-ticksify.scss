@@ -1,0 +1,179 @@
+@import "trix/dist/trix.css";
+
+$prefix: ".fob-ticksify";
+
+.trix-button-group {
+    &.trix-button-group--file-tools {
+        display: none;
+    }
+}
+
+#{$prefix}-wrapper {
+    padding: 2rem 0;
+}
+
+#{$prefix}-card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    padding: 1rem 1.25rem;
+
+    &-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+}
+
+#{$prefix}-ticket {
+    &-title {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    &-details {
+        dl {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+    }
+}
+
+#{$prefix}-message {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+
+    &:last-child {
+        border-bottom: none;
+    }
+
+    &-content {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+
+        p {
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &-avatar {
+        width: 48px;
+        border-radius: 50%;
+    }
+
+    &-name {
+        font-size: 1rem;
+        color: #495057;
+        font-weight: 600;
+        margin-bottom: 0
+    }
+
+    &-time {
+        font-size: 0.875rem;
+        color: #6c757d;
+        display: flex;
+        align-items: center;
+
+        svg {
+            width: 1rem;
+            height: 1rem;
+            margin-inline-end: 0.25rem;
+        }
+    }
+
+    &-body {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        color: #495057;
+    }
+}
+
+#{$prefix}-tickets {
+    #{$prefix}-ticket {
+        border: 1px solid #e9ecef;
+        border-radius: 0.25rem;
+        padding: 1rem;
+        margin-bottom: 1rem;
+
+        span {
+            svg {
+                width: 0.75rem;
+                height: 0.75rem;
+                margin-inline-end: 0.25rem;
+            }
+        }
+
+        #{$prefix}-ticket-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0;
+
+            &:hover {
+                color: var(--primary-color);
+            }
+        }
+
+        #{$prefix}-ticket-content {
+            font-size: 1rem;
+            color: #495057;
+            margin-bottom: 1rem;
+        }
+
+        #{$prefix}-ticket-details {
+            font-size: 0.875rem;
+            color: #6c757d;
+
+            #{$prefix}-ticket-detail {
+                margin-inline-end: 0.5rem;
+                display: inline-flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 0.25rem;
+
+                &:last-child {
+                    margin-inline-end: 0;
+                }
+            }
+        }
+    }
+}
+
+#{$prefix}-stats {
+    #{$prefix}-stat-item {
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+        padding: 1rem;
+
+        #{$prefix}-stat-title {
+            font-weight: bold;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        #{$prefix}-stat-count {
+            font-size: 1.5rem;
+            color: #6c757d;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+
+        #{$prefix}-stat-icon {
+            display: flex;
+            height: 100%;
+            justify-content: flex-end;
+            align-items: center;
+
+            svg {
+                width: 2rem;
+                height: 2rem;
+                color: #6c757d;
+            }
+        }
+    }
+}

@@ -1,27 +1,27 @@
 <div class="fob-ticksify-wrapper">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-xl-4 mb-3 g-3">
-        @include('plugins/fob-ticksify::partials.stat', [
+        @include('plugins/fob-ticksify::themes.partials.stat', [
             'title' => __('Total Tickets'),
             'count' => $stats->total,
             'icon' => 'ti ti-ticket',
             'color' => 'primary',
         ])
 
-        @include('plugins/fob-ticksify::partials.stat', [
+        @include('plugins/fob-ticksify::themes.partials.stat', [
             'title' => __('Closed Tickets'),
             'count' => $stats->closed,
             'icon' => 'ti ti-x',
             'color' => 'danger',
         ])
 
-        @include('plugins/fob-ticksify::partials.stat', [
+        @include('plugins/fob-ticksify::themes.partials.stat', [
             'title' => __('Active Tickets'),
             'count' => $stats->open,
             'icon' => 'ti ti-check',
             'color' => 'success',
         ])
 
-        @include('plugins/fob-ticksify::partials.stat', [
+        @include('plugins/fob-ticksify::themes.partials.stat', [
             'title' => __('On Hold Tickets'),
             'count' => $stats->on_hold,
             'icon' => 'ti ti-hand-grab',
@@ -91,6 +91,6 @@
             </div>
         @endif
 
-        @include('plugins/fob-ticksify::partials.pagination', ['paginator' => $tickets])
+        @include('plugins/fob-ticksify::themes.partials.pagination', ['paginator' => $tickets])
     </div>
 </div>

@@ -21,7 +21,7 @@ class TicketForm extends FormFront
     {
         Theme::asset()
             ->container('footer')
-            ->add('ticksify', 'vendor/core/plugins/fob-ticksify/js/ticksify.js');
+            ->add('ticksify', 'vendor/core/plugins/fob-ticksify/js/front-ticksify.js');
 
         $categories = Category::query()
             ->wherePublished()

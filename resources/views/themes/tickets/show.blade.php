@@ -17,21 +17,23 @@
                 </div>
             </div>
 
-            <div class="fob-ticksify-card">
-                <h5 class="fob-ticksify-card-title">{{ __('Reply to Ticket') }}</h5>
-                @if(! $ticket->is_locked)
-                    {!! $form->renderForm() !!}
-                @else
-                    <div class="fob-ticksify-card-body">
-                        <div class="alert alert-secondary mb-0">
-                            <div class="d-flex align-items-center gap-1">
-                                <x-core::icon name="ti ti-lock" />
-                                {{ __('This ticket is locked and you cannot reply to it.') }}
+            @if(auth()->user()->hasPermission('fob-ticksify.tickets.messages.store'))
+                <div class="fob-ticksify-card">
+                    <h5 class="fob-ticksify-card-title">{{ __('Reply to Ticket') }}</h5>
+                    @if(! $ticket->is_locked)
+                        {!! $form->renderForm() !!}
+                    @else
+                        <div class="fob-ticksify-card-body">
+                            <div class="alert alert-secondary mb-0">
+                                <div class="d-flex align-items-center gap-1">
+                                    <x-core::icon name="ti ti-lock" />
+                                    {{ __('This ticket is locked and you cannot reply to it.') }}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endif
-            </div>
+                    @endif
+                </div>
+            @endif
 
             @if ($messages->isNotEmpty())
                 <div class="fob-ticksify-card p-0" id="messages">
@@ -42,8 +44,16 @@
                                 <div class="fob-ticksify-message-content">
                                     {{ RvMedia::image($message->sender->avatar_url, $message->sender->name, attributes: ['class' => 'fob-ticksify-message-avatar']) }}
                                     <div class="fob-ticksify-message-details">
-                                        <h6 class="fob-ticksify-message-name">{{ $message->sender->name }}</h6>
-                                        <small class="fob-ticksify-message-time" title="{{ $message->created_at->translatedFormat('d M Y H:i') }}">
+                                        <div class="d-flex align-items-center gap-1 mb-1">
+                                            <h6 class="fob-ticksify-message-name">{{ $message->sender->name }}</h6>
+                                            @if($message->is_staff)
+                                                <span class="badge bg-primary">{{ __('Staff') }}</span>
+                                            @endif
+                                        </div>
+                                        <small
+                                            class="fob-ticksify-message-time"
+                                            title="{{ $message->created_at->translatedFormat('d M Y H:i') }}"
+                                        >
                                             <x-core::icon name="ti ti-clock" />
                                             {{ $message->created_at->diffForHumans() }}
                                         </small>
@@ -57,7 +67,7 @@
                     </div>
                 </div>
 
-                @include('plugins/fob-ticksify::partials.pagination', ['paginator' => $messages])
+                @include('plugins/fob-ticksify::themes.partials.pagination', ['paginator' => $messages])
             @endif
         </div>
 

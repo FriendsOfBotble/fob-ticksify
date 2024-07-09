@@ -2,45 +2,63 @@
 
 namespace FriendsOfBotble\Ticksify\Forms;
 
-use Botble\Base\Forms\FieldOptions\ButtonFieldOption;
+use Botble\ACL\Models\User;
+use Botble\Base\Facades\Html;
+use Botble\Base\Forms\FieldOptions\EditorFieldOption;
 use Botble\Base\Forms\FieldOptions\HtmlFieldOption;
-use Botble\Base\Forms\FieldOptions\TextFieldOption;
+use Botble\Base\Forms\FieldOptions\StatusFieldOption;
+use Botble\Base\Forms\Fields\EditorField;
 use Botble\Base\Forms\Fields\HtmlField;
-use Botble\Theme\Facades\Theme;
-use Botble\Theme\FormFront;
+use Botble\Base\Forms\Fields\SelectField;
+use Botble\Base\Forms\FormAbstract;
+use FriendsOfBotble\Ticksify\Http\Requests\MessageRequest;
 use FriendsOfBotble\Ticksify\Models\Message;
 
-class MessageForm extends FormFront
+class MessageForm extends FormAbstract
 {
     public function setup(): void
     {
-        Theme::asset()->add('ticksify', 'vendor/core/plugins/fob-ticksify/css/ticksify.css');
-
-        Theme::asset()
-            ->container('footer')
-            ->add('ticksify', 'vendor/core/plugins/fob-ticksify/js/ticksify.js');
+        /** @var Message $model */
+        $model = $this->getModel();
 
         $this
             ->model(Message::class)
-            ->contentOnly()
+            ->setValidatorClass(MessageRequest::class)
+            ->setBreakFieldPoint('status')
             ->add(
-                'trix-editor',
+                'ticket_id',
                 HtmlField::class,
                 HtmlFieldOption::make()
-                    ->content('<trix-editor input="content"></trix-editor>')
+                    ->disabled()
+                    ->label(trans('plugins/fob-ticksify::ticksify.ticket'))
+                    ->content(Html::link(route('fob-ticksify.tickets.show', $model->ticket), $model->ticket->title, ['class' => 'd-block mb-3']))
+            )
+            ->add(
+                'sender_id',
+                HtmlField::class,
+                HtmlFieldOption::make()
+                    ->disabled()
+                    ->label(trans('plugins/fob-ticksify::ticksify.user'))
+                    ->content(function () use ($model) {
+                        $route = match ($model->sender_type) {
+                            User::class => 'users.profile.view',
+                            default => 'account.edit',
+                        };
+
+                        return Html::link(route($route, $model->sender), $model->sender->name, ['class' => 'd-block mb-3']);
+                    })
             )
             ->add(
                 'content',
-                'hidden',
-                TextFieldOption::make()
-                    ->addAttribute('id', 'content')
+                EditorField::class,
+                EditorFieldOption::make()
+                    ->required()
+                    ->maxLength(10000),
             )
             ->add(
-                'submit',
-                'submit',
-                ButtonFieldOption::make()
-                    ->cssClass('btn btn-primary mt-3')
-                    ->label(__('Reply'))
+                'status',
+                SelectField::class,
+                StatusFieldOption::make(),
             );
     }
 }

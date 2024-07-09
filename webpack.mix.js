@@ -7,10 +7,12 @@ const dist = `public/vendor/core/plugins/${directory}`
 
 mix
     .sass(`${source}/resources/sass/ticksify.scss`, `${dist}/css`)
-    .js(`${source}/resources/js/ticksify.js`, `${dist}/js`)
+    .sass(`${source}/resources/sass/front-ticksify.scss`, `${dist}/css`)
+    .js(`${source}/resources/js/front-ticksify.js`, `${dist}/js`)
 
 if (mix.inProduction()) {
     mix
         .copy(`${dist}/css/ticksify.css`, `${source}/public/css`)
-        .copy(`${dist}/js/ticksify.js`, `${source}/public/js`)
+        .copy(`${dist}/css/front-ticksify.css`, `${source}/public/css`)
+        .copy(`${dist}/js/front-ticksify.js`, `${source}/public/js`)
 }

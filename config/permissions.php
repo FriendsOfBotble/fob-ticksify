@@ -11,13 +11,18 @@ return [
         'parent_flag' => 'fob-ticksify',
     ],
     [
-        'name' => 'Create',
-        'flag' => 'fob-ticksify.tickets.create',
+        'name' => 'View',
+        'flag' => 'fob-ticksify.tickets.show',
         'parent_flag' => 'fob-ticksify.tickets.index',
     ],
     [
-        'name' => 'Edit',
-        'flag' => 'fob-ticksify.tickets.edit',
+        'name' => 'Update',
+        'flag' => 'fob-ticksify.tickets.update',
+        'parent_flag' => 'fob-ticksify.tickets.index',
+    ],
+    [
+        'name' => 'Reply',
+        'flag' => 'fob-ticksify.tickets.messages.store',
         'parent_flag' => 'fob-ticksify.tickets.index',
     ],
     [
@@ -45,5 +50,21 @@ return [
         'name' => 'Delete',
         'flag' => 'fob-ticksify.categories.destroy',
         'parent_flag' => 'fob-ticksify.categories.index',
+    ],
+
+    [
+        'name' => 'Messages',
+        'flag' => 'fob-ticksify.messages.index',
+        'parent_flag' => 'fob-ticksify',
+    ],
+    [
+        'name' => 'Edit',
+        'flag' => 'fob-ticksify.messages.edit',
+        'parent_flag' => 'fob-ticksify.messages.index',
+    ],
+    [
+        'name' => 'Delete',
+        'flag' => 'fob-ticksify.messages.destroy',
+        'parent_flag' => 'fob-ticksify.messages.index',
     ],
 ];
