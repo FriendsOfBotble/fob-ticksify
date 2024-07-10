@@ -24,6 +24,7 @@ class TicksifyServiceProvider extends ServiceProvider
             ->loadAndPublishViews()
             ->resolveRelations()
             ->loadMigrations()
+            ->publishAssets()
             ->loadRoutes();
 
         $this->app->booted(fn (Application $app) => $app->register(HookServiceProvider::class));
