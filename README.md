@@ -14,14 +14,13 @@ The admin panel provides a comprehensive view of all ticket activities.
 
 ## Requirements
 
-- Botble core 7.2.0 or higher.
+- Botble core 7.3.0 or higher.
 
 ## Installation
 
 ### Install via Admin Panel
 
-Go to the **Admin Panel** -> **Plugins** -> **Add New Plugin** and type `FOB Ticksify` in the search box then click to *
-*install**.
+Go to the **Admin Panel** -> **Plugins** -> **Add New Plugin** and type `FOB Ticksify` in the search box then click to **install**.
 
 ### Install Manually
 
