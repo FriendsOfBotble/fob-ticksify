@@ -112,8 +112,10 @@
                         <dd class="col-7">#{{ $ticket->getKey() }}</dd>
                         <dt class="col-5">{{ trans('plugins/fob-ticksify::ticksify.priority') }}:</dt>
                         <dd class="col-7">{!! $ticket->priority->toHtml() !!}</dd>
-                        <dt class="col-5">{{ trans('plugins/fob-ticksify::ticksify.category') }}:</dt>
-                        <dd class="col-7">{{ $ticket->category->name }}</dd>
+                        @if ($ticket->category)
+                            <dt class="col-5">{{ trans('plugins/fob-ticksify::ticksify.category') }}:</dt>
+                            <dd class="col-7">{{ $ticket->category->name }}</dd>
+                        @endif
                         <dt class="col-5">{{ trans('plugins/fob-ticksify::ticksify.created_at') }}:</dt>
                         <dd class="col-7">
                             <time title="{{ $ticket->created_at->translatedFormat('d M Y H:i') }}">{{ $ticket->created_at->diffForHumans() }}</time>

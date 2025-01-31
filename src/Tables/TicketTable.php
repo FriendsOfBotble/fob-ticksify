@@ -40,7 +40,8 @@ class TicketTable extends TableAbstract
                 LinkableColumn::make('category_id')
                     ->label(trans('plugins/fob-ticksify::ticksify.category'))
                     ->urlUsing(fn (LinkableColumn $column) => route('fob-ticksify.categories.edit', $column->getItem()->category_id))
-                    ->getValueUsing(fn (LinkableColumn $column) => $column->getItem()->category->name),
+                    ->getValueUsing(fn (LinkableColumn $column) => $column->getItem()->category?->name)
+                    ->withEmptyState(),
                 StatusColumn::make()->alignStart(),
                 DateTimeColumn::make('created_at'),
             ])

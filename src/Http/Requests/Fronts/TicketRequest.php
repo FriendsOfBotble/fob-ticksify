@@ -12,8 +12,8 @@ class TicketRequest extends Request
     {
         return [
             'title' => ['required', 'string', 'min:3', 'max:255'],
-            'category_id' => ['required', 'string', Rule::exists(Category::class, 'id')],
-            'content' => ['required', 'string', 'min:20', 'max:10000'],
+            'category_id' => ['nullable', Rule::exists(Category::class, 'id')],
+            'content' => ['required', 'string', 'max:100000'],
         ];
     }
 }

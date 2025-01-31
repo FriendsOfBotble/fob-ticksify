@@ -79,8 +79,10 @@
                             <span class="fob-ticksify-ticket-detail">
                             <strong>{{ __('Status') }}:</strong> {!! $ticket->status->toHtml() !!}
                         </span>
+                        @if ($ticket->category)
                             <span class="fob-ticksify-ticket-detail">
                             <strong>{{ __('Category') }}:</strong> {{ $ticket->category->name }}
+                        @endif
                         </span>
                             <span class="fob-ticksify-ticket-detail">
                             <strong>{{ __('Created') }}:</strong> {{ $ticket->created_at->diffForHumans() }}

@@ -12,6 +12,7 @@ use Botble\Base\Forms\Fields\TextField;
 use Botble\Theme\Facades\Theme;
 use Botble\Theme\FormFront;
 use FriendsOfBotble\Ticksify\Enums\TicketPriority;
+use FriendsOfBotble\Ticksify\Http\Requests\Fronts\TicketRequest;
 use FriendsOfBotble\Ticksify\Models\Category;
 use FriendsOfBotble\Ticksify\Models\Ticket;
 
@@ -32,19 +33,21 @@ class TicketForm extends FormFront
             ->model(Ticket::class)
             ->contentOnly()
             ->setUrl(route('fob-ticksify.public.tickets.store'))
+            ->setValidatorClass(TicketRequest::class)
             ->add(
                 'title',
                 TextField::class,
                 TextFieldOption::make()
                     ->label(__('Subject'))
                     ->placeholder(__('Briefly describe your issue'))
+                    ->required()
             )
             ->add(
                 'category_id',
                 SelectField::class,
                 SelectFieldOption::make()
                     ->label(__('Category'))
-                    ->choices($categories),
+                    ->choices(['' => __('Uncategorized')] + $categories),
             )
             ->add(
                 'trix-editor',
@@ -52,6 +55,7 @@ class TicketForm extends FormFront
                 HtmlFieldOption::make()
                     ->label(__('Content'))
                     ->content('<trix-editor input="content"></trix-editor>')
+                    ->required()
             )
             ->add(
                 'content',

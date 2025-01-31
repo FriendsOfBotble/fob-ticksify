@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            @if(auth()->user()->hasPermission('fob-ticksify.tickets.messages.store'))
+            @if(auth()->check() && auth()->user()->hasPermission('fob-ticksify.tickets.messages.store'))
                 <div class="fob-ticksify-card">
                     <h5 class="fob-ticksify-card-title">{{ __('Reply to Ticket') }}</h5>
                     @if(! $ticket->is_locked)
@@ -87,8 +87,10 @@
                     </dd>
                     <dt>{{ __('Priority') }}</dt>
                     <dd>{!! $ticket->priority->toHtml() !!}</dd>
-                    <dt>{{ __('Category') }}</dt>
-                    <dd>{{ $ticket->category->name }}</dd>
+                    @if ($ticket->category)
+                        <dt>{{ __('Category') }}</dt>
+                        <dd>{{ $ticket->category->name }}</dd>
+                    @endif
                 </dl>
             </div>
 
