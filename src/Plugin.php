@@ -10,7 +10,6 @@ class Plugin extends PluginOperationAbstract
     public static function remove(): void
     {
         Schema::dropIfExists('fob_ticket_messages');
-        Schema::dropIfExists('fob_ticket_category');
         Schema::dropIfExists('fob_tickets');
         Schema::dropIfExists('fob_ticket_categories');
     }

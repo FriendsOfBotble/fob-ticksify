@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('fob_ticket_categories')) {
+            return;
+        }
+
         Schema::create('fob_ticket_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');

@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Schema;
 return new class () extends Migration {
     public function up(): void
     {
+        if (Schema::hasTable('fob_ticket_messages')) {
+            return;
+        }
+
         Schema::create('fob_ticket_messages', function (Blueprint $table) {
             $table->id();
             $table->morphs('sender');
