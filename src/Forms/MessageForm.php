@@ -40,6 +40,10 @@ class MessageForm extends FormAbstract
                     ->disabled()
                     ->label(trans('plugins/fob-ticksify::ticksify.user'))
                     ->content(function () use ($model) {
+                        if (! $model->sender) {
+                            return '';
+                        }
+
                         $route = match ($model->sender_type) {
                             User::class => 'users.profile.view',
                             default => 'account.edit',

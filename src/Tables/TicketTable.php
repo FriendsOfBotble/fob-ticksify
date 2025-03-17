@@ -33,13 +33,20 @@ class TicketTable extends TableAbstract
                 IdColumn::make(),
                 FormattedColumn::make('sender_type')
                     ->label(trans('plugins/fob-ticksify::ticksify.user'))
-                    ->getValueUsing(fn (FormattedColumn $column) => $column->getItem()->sender->name),
+                    ->withEmptyState()
+                    ->getValueUsing(fn (FormattedColumn $column) => $column->getItem()->sender?->name),
                 NameColumn::make('title')
                     ->label(trans('plugins/fob-ticksify::ticksify.title'))
                     ->route('fob-ticksify.tickets.show'),
                 LinkableColumn::make('category_id')
                     ->label(trans('plugins/fob-ticksify::ticksify.category'))
-                    ->urlUsing(fn (LinkableColumn $column) => route('fob-ticksify.categories.edit', $column->getItem()->category_id))
+                    ->urlUsing(function (LinkableColumn $column) {
+                        if (! $column->getItem()->category) {
+                            return null;
+                        }
+
+                        return route('fob-ticksify.categories.edit', $column->getItem()->category_id);
+                    })
                     ->getValueUsing(fn (LinkableColumn $column) => $column->getItem()->category?->name)
                     ->withEmptyState(),
                 StatusColumn::make()->alignStart(),

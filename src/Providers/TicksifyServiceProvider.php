@@ -2,13 +2,17 @@
 
 namespace FriendsOfBotble\Ticksify\Providers;
 
+use Botble\Base\Contracts\BaseModel;
+use Botble\Base\Facades\BaseHelper;
 use Botble\Base\Facades\DashboardMenu;
 use Botble\Base\Supports\ServiceProvider;
 use Botble\Base\Traits\LoadAndPublishDataTrait;
 use Botble\Ecommerce\Models\Customer;
 use Botble\RealEstate\Models\Account;
+use FriendsOfBotble\Ticksify\Models\Message;
 use FriendsOfBotble\Ticksify\Models\Ticket;
 use Illuminate\Foundation\Application;
+use Throwable;
 
 class TicksifyServiceProvider extends ServiceProvider
 {
@@ -28,6 +32,19 @@ class TicksifyServiceProvider extends ServiceProvider
             ->loadRoutes();
 
         $this->app->booted(fn (Application $app) => $app->register(HookServiceProvider::class));
+
+        $this->app['events']->listen('eloquent.deleted: *', function ($event, $models) {
+            try {
+                if (is_array($models) && isset($models[0]) && $models[0] instanceof BaseModel) {
+                    $model = $models[0];
+
+                    Ticket::query()->where('sender_id', $model->getKey())->where('sender_type', $model::class)->delete();
+                    Message::query()->where('sender_id', $model->getKey())->where('sender_type', $model::class)->delete();
+                }
+            } catch (Throwable $exception) {
+                BaseHelper::logError($exception);
+            }
+        });
     }
 
     protected function registerDashboardMenu(): self

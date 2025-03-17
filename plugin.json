@@ -5,7 +5,7 @@
     "provider": "FriendsOfBotble\\Ticksify\\Providers\\TicksifyServiceProvider",
     "author": "Friends Of Botble",
     "url": "https://friendsofbotble.com",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "Easily to manage and organize your customer support tickets.",
     "minimum_core_version": "7.3.0"
 }

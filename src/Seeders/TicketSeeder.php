@@ -46,7 +46,7 @@ class TicketSeeder extends BaseSeeder
         ];
 
         foreach ($categories as $category) {
-            Category::create([
+            Category::query()->create([
                 'name' => $category,
                 'status' => BaseStatusEnum::PUBLISHED,
             ]);
@@ -63,7 +63,7 @@ class TicketSeeder extends BaseSeeder
         $users = $userQuery->pluck('id');
 
         foreach ($tickets as $ticket) {
-            Ticket::create([
+            Ticket::query()->create([
                 'category_id' => $categories->random(),
                 'sender_type' => $userQuery->getModel()->getMorphClass(),
                 'sender_id' => $users->random(),

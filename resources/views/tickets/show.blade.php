@@ -56,14 +56,14 @@
                                     <div class="chat-item">
                                         <div class="row align-items-end">
                                             <div class="col-auto">
-                                                <span class="avatar" style="background-image: url('{{ $message->sender->avatar_url }}')"></span>
+                                                <span class="avatar" style="background-image: url('{{ $message->sender?->avatar_url ?: RvMedia::getDefaultImage() }}')"></span>
                                             </div>
                                             <div class="col">
                                                 <div class="chat-bubble">
                                                     <div class="chat-bubble-title">
                                                         <div class="row">
                                                             <div class="col chat-bubble-author">
-                                                                {{ $message->sender->name }}
+                                                                {{ $message->sender?->name }}
                                                                 @if($message->is_staff)
                                                                     <x-core::badge
                                                                         color="primary"
@@ -99,10 +99,12 @@
             <x-core::card>
                 <div class="border-bottom p-3 mb-3">
                     <div class="d-flex align-items-center gap-2">
-                        <span class="avatar avatar-sm rounded" style="background-image: url('{{ $ticket->sender->avatar_url }}')"></span>
+                        <span class="avatar avatar-sm rounded" style="background-image: url('{{ $ticket->sender?->avatar_url ?: RvMedia::getDefaultImage() }}')"></span>
                         <div>
-                            <h5 class="mb-0 fs-4 text-body">{{ $ticket->sender->name }}</h5>
-                            <a class="text-muted small" href="mailto:{{ $ticket->sender->email }}">{{ $ticket->sender->email }}</a>
+                            <h5 class="mb-0 fs-4 text-body">{{ $ticket->sender?->name }}</h5>
+                            @if ($ticket->sender?->email)
+                                <a class="text-muted small" href="mailto:{{ $ticket->sender?->email }}">{{ $ticket->sender?->email }}</a>
+                            @endif
                         </div>
                     </div>
                 </div>

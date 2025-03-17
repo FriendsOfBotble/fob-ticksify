@@ -15,7 +15,9 @@ class TicketMessageController extends BaseController
         TicketMessageRequest $request,
         StoreTicketMessageAction $storeTicketMessageAction
     ) {
-        /** @var Ticket $ticket */
+        /**
+         * @var Ticket $ticket
+         */
         $ticket = Helper::getAuthUser()
             ->tickets()
             ->findOrFail($ticket);
