@@ -32,7 +32,7 @@ class MessageTable extends TableAbstract
                 LinkableColumn::make('ticket_id')
                     ->label(trans('plugins/fob-ticksify::ticksify.ticket'))
                     ->urlUsing(fn (LinkableColumn $column) => route('fob-ticksify.tickets.show', $column->getItem()->ticket_id))
-                    ->getValueUsing(fn (LinkableColumn $column) => $column->getItem()->ticket->title),
+                    ->getValueUsing(fn (LinkableColumn $column) => $column->getItem()->ticket?->title),
                 Column::make('content')
                     ->label(trans('plugins/fob-ticksify::ticksify.content')),
                 StatusColumn::make(),
