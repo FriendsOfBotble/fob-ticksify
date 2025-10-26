@@ -33,7 +33,7 @@ class TicksifyServiceProvider extends ServiceProvider
 
         $this->app->booted(fn (Application $app) => $app->register(HookServiceProvider::class));
 
-        $this->app['events']->listen('eloquent.deleted: *', function ($event, $models) {
+        $this->app['events']->listen('eloquent.deleted: *', function ($event, $models): void {
             try {
                 if (is_array($models) && isset($models[0]) && $models[0] instanceof BaseModel) {
                     $model = $models[0];
@@ -49,7 +49,7 @@ class TicksifyServiceProvider extends ServiceProvider
 
     protected function registerDashboardMenu(): self
     {
-        DashboardMenu::beforeRetrieving(function () {
+        DashboardMenu::beforeRetrieving(function (): void {
             DashboardMenu::make()
                 ->registerItem([
                     'id' => 'cms-plugins-fob-ticksify',
@@ -82,7 +82,7 @@ class TicksifyServiceProvider extends ServiceProvider
         });
 
         DashboardMenu::for(is_plugin_active('ecommerce') ? 'customer' : 'account')
-            ->beforeRetrieving(function () {
+            ->beforeRetrieving(function (): void {
                 DashboardMenu::make()->registerItem([
                     'id' => 'cms-plugins-fob-ticksify-public',
                     'priority' => 90,

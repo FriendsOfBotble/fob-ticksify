@@ -19,7 +19,7 @@ class StoreTicketMessageAction
         MessageForm::create()
             ->setRequest($request)
             ->onlyValidatedData()
-            ->saving(function (MessageForm $form) use ($ticket, $actor) {
+            ->saving(function (MessageForm $form) use ($ticket, $actor): void {
                 $message = $ticket->messages()->create([
                     ...$form->getRequestData(),
                     'status' => BaseStatusEnum::PUBLISHED,

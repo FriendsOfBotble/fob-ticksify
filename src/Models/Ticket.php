@@ -38,7 +38,7 @@ class Ticket extends BaseModel
     {
         parent::boot();
 
-        static::deleted(function (Ticket $ticket) {
+        static::deleted(function (Ticket $ticket): void {
             $ticket->messages()->delete();
         });
     }

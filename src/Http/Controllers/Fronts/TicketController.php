@@ -92,7 +92,7 @@ class TicketController extends BaseController
     public function store(TicketRequest $request)
     {
         $form = TicketForm::create()->setRequest($request)->onlyValidatedData();
-        $form->saving(function (TicketForm $form) {
+        $form->saving(function (TicketForm $form): void {
             $model = $form->getModel();
             $user = Helper::getAuthUser();
 

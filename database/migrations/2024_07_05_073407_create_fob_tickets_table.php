@@ -13,7 +13,7 @@ return new class () extends Migration {
             return;
         }
 
-        Schema::create('fob_tickets', function (Blueprint $table) {
+        Schema::create('fob_tickets', function (Blueprint $table): void {
             $table->id();
             $table->foreignId('category_id');
             $table->morphs('sender');

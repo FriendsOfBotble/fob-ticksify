@@ -26,7 +26,7 @@ class MessageForm extends FormFront
         $this
             ->model(Message::class)
             ->contentOnly()
-            ->when(is_in_admin(), function (MessageForm $form) {
+            ->when(is_in_admin(), function (MessageForm $form): void {
                 $form
                     ->add(
                         'content',
@@ -34,7 +34,7 @@ class MessageForm extends FormFront
                         EditorFieldOption::make()
                             ->rows(2),
                     );
-            }, function (MessageForm $form) {
+            }, function (MessageForm $form): void {
                 $form
                     ->add(
                         'trix-editor',

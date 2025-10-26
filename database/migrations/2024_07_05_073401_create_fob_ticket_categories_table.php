@@ -12,7 +12,7 @@ return new class () extends Migration {
             return;
         }
 
-        Schema::create('fob_ticket_categories', function (Blueprint $table) {
+        Schema::create('fob_ticket_categories', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->string('status', 60)->default(BaseStatusEnum::PUBLISHED);

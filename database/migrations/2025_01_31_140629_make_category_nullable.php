@@ -11,14 +11,14 @@ return new class () extends Migration {
             return;
         }
 
-        Schema::table('fob_tickets', function (Blueprint $table) {
+        Schema::table('fob_tickets', function (Blueprint $table): void {
             $table->foreignId('category_id')->nullable()->change();
         });
     }
 
     public function down(): void
     {
-        Schema::table('fob_tickets', function (Blueprint $table) {
+        Schema::table('fob_tickets', function (Blueprint $table): void {
             $table->foreignId('category_id')->change();
         });
     }

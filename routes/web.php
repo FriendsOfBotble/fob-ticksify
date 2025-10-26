@@ -9,13 +9,13 @@ use FriendsOfBotble\Ticksify\Http\Controllers\MessageController;
 use FriendsOfBotble\Ticksify\Http\Controllers\TicketController;
 use FriendsOfBotble\Ticksify\Http\Controllers\TicketMessageController;
 
-AdminHelper::registerRoutes(function () {
-    Route::prefix('ticksify')->name('fob-ticksify.')->group(function () {
-        Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
+AdminHelper::registerRoutes(function (): void {
+    Route::prefix('ticksify')->name('fob-ticksify.')->group(function (): void {
+        Route::group(['prefix' => 'categories', 'as' => 'categories.'], function (): void {
             Route::resource('', CategoryController::class)->parameters(['' => 'category']);
         });
 
-        Route::group(['prefix' => 'tickets', 'as' => 'tickets.'], function () {
+        Route::group(['prefix' => 'tickets', 'as' => 'tickets.'], function (): void {
             Route::match(['GET', 'POST'], '/', [TicketController::class, 'index'])->name('index');
             Route::get('{ticket}', [TicketController::class, 'show'])->name('show');
             Route::post('{ticket}/messages', [TicketMessageController::class, 'store'])->name('messages.store');
@@ -23,7 +23,7 @@ AdminHelper::registerRoutes(function () {
             Route::delete('{ticket}', [TicketController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('messages')->name('messages.')->group(function () {
+        Route::prefix('messages')->name('messages.')->group(function (): void {
             Route::resource('', MessageController::class)
                 ->except(['create', 'store'])
                 ->parameters(['' => 'message']);
@@ -31,11 +31,11 @@ AdminHelper::registerRoutes(function () {
     });
 });
 
-Theme::registerRoutes(function () {
+Theme::registerRoutes(function (): void {
     Route::middleware(is_plugin_active('ecommerce') ? 'customer' : 'account')
         ->prefix('tickets')
         ->name('fob-ticksify.public.tickets.')
-        ->group(function () {
+        ->group(function (): void {
             Route::get('/', [FrontTicketController::class, 'index'])->name('index');
             Route::get('create', [FrontTicketController::class, 'create'])->name('create');
             Route::post('/', [FrontTicketController::class, 'store'])->name('store');
